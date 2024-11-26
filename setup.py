@@ -19,14 +19,14 @@ DISTNAME = "TCBenchmark"
 DESCRIPTION = (
     "Python platform and benchmark dataset for data-driven tropical cyclone studies."
 )
-MAINTAINER = "Milton S. Gomez"
-MAINTAINER_EMAIL = "milton.gomez@unil.ch"
-URL = "https://wp.unil.ch/dawn/"
+MAINTAINER = "Anonymous"
+MAINTAINER_EMAIL = "anonymous@domain.com"
+URL = "https://anonymous.url/"
 LICENSE = "MIT"
 PROJECT_URLS = {
-    "Bug Tracker": "https://github.com/msgomez06/TCBench_Alpha/issues",
-    "Documentation": "https://github.com/msgomez06/TCBench_Alpha/wiki",
-    "Source Code": "https://github.com/msgomez06/TCBench_Alpha",
+    "Bug Tracker": "https://anonymous.url/issues",
+    "Documentation": "https://anonymous.url/wiki",
+    "Source Code": "https://anonymous.url",
 }
 
 VERSION = "0.0.3rc12"
