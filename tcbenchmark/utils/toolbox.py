@@ -42,7 +42,7 @@ import pickle
 from . import constants, data_lib
 
 # Retrieve Repository Path
-repo_path = "/" + os.path.join(*os.getcwd().split("/")[:-1])
+repo_path = os.sep + os.path.join(*os.getcwd().split(os.sep)[:-1])
 
 
 # %% Auxilliary Functions
@@ -1277,7 +1277,7 @@ class tc_track:
         # extract the data folder from the kwargs
         data_dir = kwargs.get(
             "timeseries_dir",
-            os.path.join("/", *self.filepath.split("/")[:-1], "SHIPS_netcdfs"),
+            os.path.join(self.__parent.datadir_path, "SHIPS_netcdfs"),
         )
 
         # Check if the dataset doesn't exist in the object
