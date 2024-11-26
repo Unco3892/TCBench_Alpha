@@ -1,35 +1,27 @@
 # --------------------------------------------------------------------------------
-# Scikit learn implementation
+# Setup script for TCBenchmark
 
-#! /usr/bin/env python
-#
-# Authors: The scikit-learn developers
-# License: 3-clause BSD
-
-import importlib
 import os
 import platform
 import shutil
 import sys
-import traceback
-from os.path import join
+from pathlib import Path
+from setuptools import Command, setup
 
-from setuptools import Command, Extension, setup
-from setuptools.command.build_ext import build_ext
-
+# Get the README content
+this_directory = Path(__file__).parent
+try:
+    long_description = (this_directory / "README.md").read_text(encoding="utf-8")
+except FileNotFoundError:
+    long_description = DESCRIPTION
 
 DISTNAME = "TCBenchmark"
 DESCRIPTION = (
     "Python platform and benchmark dataset for data-driven tropical cyclone studies."
 )
-with open(
-    "/work/FAC/FGSE/IDYST/tbeucler/default/milton/repos/bench_package/README.md"
-) as f:
-    LONG_DESCRIPTION = f.read()
 MAINTAINER = "Milton S. Gomez"
 MAINTAINER_EMAIL = "milton.gomez@unil.ch"
 URL = "https://wp.unil.ch/dawn/"
-# DOWNLOAD_URL = "https://pypi.org/project/scikit-learn/#files"
 LICENSE = "MIT"
 PROJECT_URLS = {
     "Bug Tracker": "https://github.com/msgomez06/TCBench_Alpha/issues",
@@ -37,12 +29,9 @@ PROJECT_URLS = {
     "Source Code": "https://github.com/msgomez06/TCBench_Alpha",
 }
 
-
 VERSION = "0.0.3rc12"
 
 # Custom clean command to remove build artifacts
-
-
 class CleanCommand(Command):
     description = "Remove build artifacts from the source tree"
 
@@ -74,19 +63,13 @@ class CleanCommand(Command):
                     if os.path.exists(os.path.join(dirpath, pyx_file)):
                         os.unlink(os.path.join(dirpath, filename))
 
-                if remove_c_files and extension == ".tp":
-                    if os.path.exists(os.path.join(dirpath, root)):
-                        os.unlink(os.path.join(dirpath, root))
-
             for dirname in dirnames:
                 if dirname == "__pycache__":
                     shutil.rmtree(os.path.join(dirpath, dirname))
 
-
 cmdclass = {
     "clean": CleanCommand,
 }
-
 
 def setup_package():
     python_requires = ">=3.9"
@@ -101,7 +84,8 @@ def setup_package():
         url=URL,
         project_urls=PROJECT_URLS,
         version=VERSION,
-        long_description=LONG_DESCRIPTION,
+        long_description=long_description,
+        long_description_content_type="text/markdown",
         classifiers=[
             "Intended Audience :: Science/Research",
             "Intended Audience :: Developers",
@@ -122,15 +106,11 @@ def setup_package():
         ],
         cmdclass=cmdclass,
         python_requires=python_requires,
-        # install_requires=min_deps.tag_to_packages["install"],
+        packages=['tcbenchmark'],
         package_data={
             "": ["*.csv", "*.gz", "*.txt", "*.pxd", "*.rst", "*.jpg", "*.css"]
         },
         zip_safe=False,  # the package can run out of an .egg file
-        # extras_require={
-        #     key: min_deps.tag_to_packages[key]
-        #     for key in ["examples", "docs", "tests", "benchmark"]
-        # },
     )
 
     commands = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
@@ -140,13 +120,12 @@ def setup_package():
         if sys.version_info < required_python_version:
             required_version = "%d.%d" % required_python_version
             raise RuntimeError(
-                "Scikit-learn requires Python %s or later. The current"
+                "TCBenchmark requires Python %s or later. The current"
                 " Python version is %s installed in %s."
                 % (required_version, platform.python_version(), sys.executable)
             )
 
     setup(**metadata)
-
 
 if __name__ == "__main__":
     setup_package()
